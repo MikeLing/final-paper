@@ -1,0 +1,5 @@
+function[thisauc]=LocalPath(train,test,lambda)
+    sim=train*train;
+    sim=sim+lambda*(train*train*train);
+    thisauc=CalcAUC(train,test,sim,110);
+end

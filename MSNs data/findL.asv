@@ -1,0 +1,16 @@
+%%对权值临街矩阵A内元素进行排序，并且获得对应位置的
+function [sorted] = findL(A,timeSlice)
+    At=triu(A);%获取矩阵的上三角矩阵
+    [a,b]=sort(At(:),'descend');%排序，b是对应的位置  降序
+    sorted=0;%空矩阵
+    for i=1:timeSlice
+        if At(b(i))~=0
+            [k,p]=find(At==At(b(i)))
+            for t=1:length(k)
+                sorted(n,1)=k(t);
+                sorted(n,2)=
+            end
+            sorted=[k,p];
+        end
+    end
+    
