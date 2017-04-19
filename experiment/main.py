@@ -1,7 +1,7 @@
 import numpy as np
 import csv
-#from matplotlib.pyplot import plot
 from scipy.sparse import coo_matrix
+from PyNetSim import PyNetSim
 import scipy.sparse as sps
 import pdb
 
@@ -38,7 +38,7 @@ worried about take node pair without connected into account.
 """
 
 
-def spare_martix_generator(slice_start, slice_end, mataData):
+def weighted_spare_martix_generator(slice_start, slice_end, mataData):
     row = []
     col = []
     data = []
@@ -55,9 +55,27 @@ def spare_martix_generator(slice_start, slice_end, mataData):
             data.append(link_weight(duration, k))
 
     m = coo_matrix((data, (row, col)), shape=(21780, 21780))
+    return m
 
-    print m
 
+def spare_martix_generator(slice_start, slice_end, mataData):
+    row = []
+    col = []
+    data = []
+    k = 160
+    for i in mataData:
+        if (i[0] >= slice_start and i[1] <= slice_end or
+            i[0] <= slice_start and i[1] >= slice_start or
+            i[0] <= slice_end and i[1] >= slice_end):
+            if i[0] in row and col[row.index(i[0])] == i[1]:
+                pass
+            else:
+                row.append(i[0])
+                col.append(i[1])
+                data.append(1)
+
+    m = coo_matrix((data, (row, col)), shape=(21780, 21780))
+    return m
 
 if __name__ == "__main__":
     # load the dataset
@@ -70,5 +88,11 @@ if __name__ == "__main__":
 
     step = 0
 #    checkpoints = time_slicer(steps=step, min_time=t_min, max_time=t_max)
-    spare_martix_generator(t_min, t_max, mataData)
+    spare_martix = spare_martix_generator(t_min, t_min+2180, mataData)
+    adj_martix = spare_martix.todense()
+    NetSim = PyNetSim.PyNetSim()
+    NetSim.ReadDataFromAdjacencyMatrix(adj_martix)
+    katz_martix = NetSim.Katz(lamda=0.1)
+
+
 
