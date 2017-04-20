@@ -1,7 +1,9 @@
 import numpy as np
 import csv
 from scipy.sparse import coo_matrix
+from sklearn.metrics import roc_auc_score
 from PyNetSim import PyNetSim
+from random import randint
 import scipy.sparse as sps
 import pdb
 
@@ -64,18 +66,30 @@ def spare_martix_generator(slice_start, slice_end, mataData):
     data = []
     k = 160
     for i in mataData:
-        if (i[0] >= slice_start and i[1] <= slice_end or
-            i[0] <= slice_start and i[1] >= slice_start or
-            i[0] <= slice_end and i[1] >= slice_end):
+        if (i[2] >= slice_start and i[3] <= slice_end or
+            i[2] <= slice_start and i[2] >= slice_start or
+            i[3] <= slice_end and i[3] >= slice_end):
             if i[0] in row and col[row.index(i[0])] == i[1]:
                 pass
             else:
                 row.append(i[0])
                 col.append(i[1])
                 data.append(1)
-
-    m = coo_matrix((data, (row, col)), shape=(21780, 21780))
+    m = coo_matrix((data, (row, col)), shape=(42, 42))
     return m
+
+
+""""
+    Caculate AUC
+"""
+def calculate_auc(csrMatrix ,simScore, sample_time = 1000):
+    slots = []
+    for i in range(0, sample_time):
+         slots.append([randint(0,41), randint(0,41)])
+    samples = np.array([csMatrix[slot[0], slot[1]] for slot in slots])
+    score = np.array([simScore[slot[0], slot[1]] for slot in slots])
+
+    roc_auc_score(samples, score)
 
 if __name__ == "__main__":
     # load the dataset
@@ -89,10 +103,22 @@ if __name__ == "__main__":
     step = 0
 #    checkpoints = time_slicer(steps=step, min_time=t_min, max_time=t_max)
     spare_martix = spare_martix_generator(t_min, t_min+2180, mataData)
+    csMatrix = spare_martix.tocsr()
+    csMatrix[csMatrix > 0] = 1
     adj_martix = spare_martix.todense()
     NetSim = PyNetSim.PyNetSim()
     NetSim.ReadDataFromAdjacencyMatrix(adj_martix)
+    # we are going to cacluate AA Katz CN LP
+    AA_martix = NetSim.AdamicAdarIndex()
+    AA_AUC = calculate_auc(csMatrix, AA_martix)
+    print AA_AUC
+    # CN_martix = NetSim.CommonNeighbor()
     katz_martix = NetSim.Katz(lamda=0.1)
+    katz_auc = calculate_auc(csMatrix, katz_martix)
+    print katz_auc
+    LP_martix = NetSim.LocalPathIndex(lamda=0.1)
+
+
 
 
 
