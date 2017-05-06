@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/multislice-network.iml" filepath="$PROJECT_DIR$/.idea/multislice-network.iml" />
+      <module fileurl="file://F:/PyNetSim-1.0/src/.idea/src.iml" filepath="F:/PyNetSim-1.0/src/.idea/src.iml" />
+    </modules>
+  </component>
+</project>

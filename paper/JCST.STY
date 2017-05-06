@@ -1,0 +1,141 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Jcst}
+         [2009/10/08 for Journal of Computer Science & Technology]
+%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\RequirePackage{multicol}
+\RequirePackage{graphicx}
+\RequirePackage{CJK}
+
+  \RequirePackage{float}
+  % Force 'figure' and 'table' to use [H] placement
+  \let\figure@bak\figure
+  \renewcommand\figure[1][]{\figure@bak[H]}
+  \let\table@bak\table
+  \renewcommand\table[1][]{\table@bak[H]}
+  \let\balance\relax
+  \long\def\singlecolumn#1{\end{multicols}#1\begin{multicols}{2}}
+
+%---------------------
+\setlength{\headsep}{5truemm}
+\setlength{\headheight}{4truemm}
+\setlength{\textheight}{231truemm}
+\setlength{\textwidth}{175truemm}
+\setlength{\topmargin}{0pt}
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{-0.5cm}
+\setlength{\footskip}{8truemm}
+\setlength{\columnsep}{7truemm}
+\setlength{\columnseprule}{0pt}
+\setlength{\parindent}{2em}
+\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\arraystretch}{1.5}
+\abovedisplayskip=10pt plus 2pt minus 2pt
+\belowdisplayskip=10pt plus 2pt minus 2pt
+\renewcommand{\footnoterule}{\kern 1mm \hrule width 10cm \kern 2mm}
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\renewcommand{\thefootnote}{}
+%-------------------- Set Page Head -----------------------
+%#1 for first page author's name and title
+%#2 for volume
+%#3 for issue
+%#4 for end page
+%#5 for month
+%#6 for year
+%#7 for right page author's name and title
+\newcommand{\setpageinformation}[7]{%
+\thispagestyle{empty}
+\pagestyle{myheadings}\markboth
+{\hss{\small\sl J. Comput. Sci. \& Technol., #5. #6, #2, #3}}
+{{\small\sl {#7}}\rm\hss}
+\vspace*{-13truemm}
+{\par\noindent\parbox[t]{17.5cm}{\small {#1}.
+\rm JOURNAL OF COMPUTER SCIENCE AND TECHNOLOGY
+#2 #3: \thepage--{#4} \ #5 #6}}
+\def\@evenfoot{}
+\def\@oddfoot{}
+}%
+
+%--------------- Title, keywords, Section, and key words etc., ------------
+
+\renewcommand{\title}[1]{\par\noindent\medskip\unskip\\\Large\textbf{#1}\par\medskip}%
+\newcommand{\keywords}[1]{\small\par\noindent\textbf{Keywords}\quad #1\par\bigskip}
+\newcommand\email[1]{\par\medskip\noindent\normalsize\textrm{E-mail: ~ #1}}
+\newcommand\received[1]{\par\medskip\noindent\normalsize\textrm{Received #1}\par\medskip}
+\newcommand\revised[1]{\par\medskip\noindent\normalsize\textrm{Revised #1}\par\medskip}
+\renewcommand\author[1]{\par\medskip\noindent\normalsize\unskip\\\textrm{#1}}
+\newcommand\address[1]{\par\medskip\noindent\small\unskip\\\textit{#1}}
+\renewenvironment{abstract}{\par\medskip\small
+           \noindent{\bfseries \abstractname\quad}}{\par\medskip}
+%----------------------------------------------------------------------
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+                                    {3.5ex \@plus 1ex \@minus .2ex}%
+                                    {2.3ex \@plus.2ex}%
+                                    {\normalfont\normalsize\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                    {3.25ex\@plus 1ex \@minus .2ex}%
+                                    {1.5ex \@plus .2ex}%
+                                    {\normalfont\normalsize\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{2}{\z@}%
+                                    {3.25ex\@plus 1ex \@minus .2ex}%
+                                    {1.5ex \@plus .2ex}%
+                                    {\normalfont\normalsize\itshape}}
+%\def\@seccntformat#1{\csname the#1\endcsname. }
+%%
+
+% Insert \small and remove colon after table/figure number
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \small%
+  \sbox\@tempboxa{#1 #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+%----------------------------------------------
+\renewcommand\theequation{\arabic{equation}}
+\renewcommand\thetable{\arabic{table}}
+\renewcommand\thefigure{\arabic{figure}}
+\renewcommand\refname{References}
+\renewcommand\tablename{\small \textbf{Table}}
+\renewcommand\figurename{\small \rm Fig.}
+%\AtBeginDocument{\label{firstpage}}
+%\AtEndDocument{\label{lastpage}}
+
+\renewcommand \thefigure {\@arabic\c@figure}
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\textbf{#1.} #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+%---------------- Theorem, Lemma, etc., and proof ----------
+\def\@begintheorem#1#2{\par{\bf #1~#2.~}\it\ignorespaces}
+\def\@opargbegintheorem#1#2#3{\par{\bf #1~#2~(#3).~}\it\ignorespaces}
+\newenvironment{proof}{\par\textit{Proof.~}\ignorespaces}
+  {\hfill~\fbox{\vbox to0.5mm{\vss\hbox to0.5mm{\hss}\vss}}\par}
+\newtheorem{theorem}{\indent Theorem}
+\newtheorem{lemma}{\indent Lemma}
+\newtheorem{remark}{\indent Remark}
+\newtheorem{definition}{\indent Definition}
+
+%-----------------------------------------------
+
+\newcommand{\biography}[1]{\par\noindent
+\vbox to 36truemm{\vss
+\hbox to 32truemm{\hss\includegraphics[height=32truemm,width=24truemm]
+{#1}\hss}}\par\vspace*{-34truemm}\par
+\hangindent=32truemm\hangafter=-10\noindent\indent}
+
+%-----------------------------------------------
+\endinput
+%%
+%% End of file `jcst.sty'.

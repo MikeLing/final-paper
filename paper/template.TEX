@@ -1,0 +1,73 @@
+\documentclass[12pt,twoside]{article}
+\usepackage{jcst}
+%Equations,theorems,lemmas,etc. are created using the traditional enviroment
+%
+\begin{document}
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%Set Page Head%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setpageinformation
+%{Head of the first page} {Running head of odd pages}
+{}
+{ }{ }{}{Mon.}{Year}
+{Shortened title within 45 charactors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%===========================================================
+
+\begin{CJK}{GBK}{song}
+
+\title{Title of the Paper}
+
+
+\footnotetext{Footnotes}
+
+\begin{abstract}
+%The abstract goes here. 
+\end{abstract}
+
+\keywords{3-5 keywords separated by commas}
+% Keywords should closely reflect the topic and should optically characterize the paper.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Main Text Begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{multicols}{2}
+\normalsize
+\section{Introduction}
+%Main text goes here. 
+%All references should be cited, and numbered in their cited order. Abbreviations should be explained when they first appear. Set variables in italic, vectors/matrices in bold italic.
+%Figures and Tables should be mentioned in the maintext.
+
+\begin{figure}
+\footnotesize\centering
+\centerline{\includegraphics{figure1.eps}}
+\caption{Caption of the figure.}
+\end{figure}
+
+\begin{table}
+\caption{Caption of the Table}
+\centering
+\begin{tabular}{ccccc}
+...
+\end{tabular}
+\end{table}
+
+\subsection{Caption of the Subsection}
+
+%\subsubsection{Caption of the Subsubsection} %Subsubsection
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main Text End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{00}
+
+\bibitem{1}
+
+\bibitem{2}
+\end{thebibliography}
+
+
+
+\end{multicols}
+\end{CJK}
+\end{document}
+
+
